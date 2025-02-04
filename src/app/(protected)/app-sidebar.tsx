@@ -3,6 +3,7 @@
 import { Bot, CreditCard, LayoutDashboard, Presentation } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Button } from "~/components/ui/button";
 import {
   Sidebar,
   SidebarContent,
@@ -121,6 +122,13 @@ export function AppSidebar() {
                   </SidebarMenuItem>
                 );
               })}
+
+              <div className="h-2"></div>
+              <SidebarMenuItem>
+                <Button variant={"outline"} className="w-fit">
+                  Create Project
+                </Button>
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

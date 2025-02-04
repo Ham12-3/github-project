@@ -1,6 +1,13 @@
 "use client";
 
-import { Bot, CreditCard, LayoutDashboard, Presentation } from "lucide-react";
+import {
+  Bot,
+  CreditCard,
+  LayoutDashboard,
+  Plus,
+  Presentation,
+} from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "~/components/ui/button";
@@ -66,9 +73,12 @@ export function AppSidebar() {
   const pathname = usePathname();
   return (
     <Sidebar collapsible="icon" variant="floating">
-      <SidebarHeader>Logo</SidebarHeader>
+      <SidebarHeader>
+        <div className="flex items-center gap-2">Logo</div>
+      </SidebarHeader>
 
       <SidebarContent>
+        {/* Group Label for Application Links */}
         <SidebarGroup>
           <SidebarGroupLabel>Application</SidebarGroupLabel>
           <SidebarGroupContent>
@@ -79,15 +89,15 @@ export function AppSidebar() {
                     <SidebarMenuButton asChild>
                       <Link
                         href={item.url}
+                        // Conditionally adds active styles if the current path matches the menu item's URL.
                         className={cn(
-                          {
-                            "!bg-primary !text-white": pathname === item.url,
-                          },
+                          { "!bg-primary !text-white": pathname === item.url },
                           "list-none",
                         )}
                       >
+                        {/* Render the icon component for the item */}
                         <item.icon />
-
+                        {/* Display the title of the item */}
                         <span>{item.title}</span>
                       </Link>
                     </SidebarMenuButton>
@@ -97,6 +107,8 @@ export function AppSidebar() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+
+        {/* Group Label for User's Projects */}
         <SidebarGroup>
           <SidebarGroupLabel>your projects</SidebarGroupLabel>
           <SidebarGroupContent>
@@ -106,16 +118,19 @@ export function AppSidebar() {
                   <SidebarMenuItem key={project.name}>
                     <SidebarMenuButton asChild>
                       <div>
+                        {/* Displays the project initial with styling.
+                            Consider adding dynamic styling based on project state or color */}
                         <div
                           className={cn(
                             "flex size-6 items-center justify-center rounded-sm border bg-white text-sm text-primary",
                             {
-                              "bg-primary text-white": true,
+                              "bg-primary text-white": true, // TODO: Update condition to reflect active project state.
                             },
                           )}
                         >
                           {project.name[0]}
                         </div>
+                        {/* Display full project name */}
                         <span>{project.name}</span>
                       </div>
                     </SidebarMenuButton>
@@ -124,10 +139,14 @@ export function AppSidebar() {
               })}
 
               <div className="h-2"></div>
+              {/* Link to create a new project with a styled button */}
               <SidebarMenuItem>
-                <Button variant={"outline"} className="w-fit">
-                  Create Project
-                </Button>
+                <Link href={"/create"}>
+                  <Button size="sm" variant={"outline"} className="w-fit">
+                    <Plus />
+                    Create Project
+                  </Button>
+                </Link>
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>

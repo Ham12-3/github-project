@@ -39,6 +39,28 @@ const items = [
     icon: CreditCard,
   },
 ];
+
+const projects = [
+  {
+    name: "Project 1",
+  },
+  {
+    name: "Project 1",
+  },
+  {
+    name: "Project 1",
+  },
+  {
+    name: "Project 1",
+  },
+  {
+    name: "Project 1",
+  },
+  {
+    name: "Project 1",
+  },
+];
+
 export function AppSidebar() {
   const pathname = usePathname();
   return (
@@ -67,6 +89,34 @@ export function AppSidebar() {
 
                         <span>{item.title}</span>
                       </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                );
+              })}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+        <SidebarGroup>
+          <SidebarGroupLabel>your projects</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {projects.map((project) => {
+                return (
+                  <SidebarMenuItem key={project.name}>
+                    <SidebarMenuButton asChild>
+                      <div>
+                        <div
+                          className={cn(
+                            "flex size-6 items-center justify-center rounded-sm border bg-white text-sm text-primary",
+                            {
+                              "bg-primary text-white": true,
+                            },
+                          )}
+                        >
+                          {project.name[0]}
+                        </div>
+                        <span>{project.name}</span>
+                      </div>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 );

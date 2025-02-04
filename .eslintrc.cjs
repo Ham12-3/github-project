@@ -4,6 +4,7 @@ const config = {
   parserOptions: {
     project: true,
   },
-  plugins: ["@typescript-eslint"],
+  plugins: ["@typescript-eslint", "next"],
+  extends: ["plugin:@typescript-eslint/recommended", "plugin:next/recommended"],
 };
 module.exports = config;

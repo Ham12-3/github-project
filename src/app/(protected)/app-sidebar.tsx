@@ -21,6 +21,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from "~/components/ui/sidebar";
 import { cn } from "~/lib/utils";
 
@@ -71,10 +72,13 @@ const projects = [
 
 export function AppSidebar() {
   const pathname = usePathname();
+  const { open } = useSidebar();
   return (
     <Sidebar collapsible="icon" variant="floating">
       <SidebarHeader>
-        <div className="flex items-center gap-2">Logo</div>
+        <div className="flex items-center gap-2">
+          {open && <h1 className="text-xl font-bold text-primary/80">Logo</h1>}
+        </div>
       </SidebarHeader>
 
       <SidebarContent>
@@ -140,14 +144,16 @@ export function AppSidebar() {
 
               <div className="h-2"></div>
               {/* Link to create a new project with a styled button */}
-              <SidebarMenuItem>
-                <Link href={"/create"}>
-                  <Button size="sm" variant={"outline"} className="w-fit">
-                    <Plus />
-                    Create Project
-                  </Button>
-                </Link>
-              </SidebarMenuItem>
+              {open && (
+                <SidebarMenuItem>
+                  <Link href={"/create"}>
+                    <Button size="sm" variant={"outline"} className="w-fit">
+                      <Plus />
+                      Create Project
+                    </Button>
+                  </Link>
+                </SidebarMenuItem>
+              )}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

@@ -13,9 +13,10 @@ const CreatePage = () => {
   const { register, handleSubmit, reset } = useForm<FormInput>();
 
   function onSubmit(data: FormInput) {
-    window.alert(data);
+    window.alert(JSON.stringify(data));
     return true;
   }
+
   return (
     <div className="flex h-full items-center justify-center gap-12">
       <img
@@ -32,12 +33,13 @@ const CreatePage = () => {
       <div className="h-4"></div>
 
       <div>
-        <form action="" onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <Input
-            {...(register("repoUrl"), { required: true })}
-            placeholder="ProjectName"
+            {...register("repoUrl", { required: true })}
+            placeholder="Repository URL"
             required
           />
+          <button type="submit">Submit</button>
         </form>
       </div>
     </div>

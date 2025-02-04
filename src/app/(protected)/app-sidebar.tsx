@@ -1,6 +1,8 @@
 "use client";
 
 import { Bot, CreditCard, LayoutDashboard, Presentation } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   Sidebar,
   SidebarContent,
@@ -8,7 +10,11 @@ import {
   SidebarGroupContent,
   SidebarGroupLabel,
   SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
 } from "~/components/ui/sidebar";
+import { cn } from "~/lib/utils";
 
 const items = [
   {
@@ -34,6 +40,7 @@ const items = [
   },
 ];
 export function AppSidebar() {
+  const pathname = usePathname();
   return (
     <Sidebar collapsible="icon" variant="floating">
       <SidebarHeader>Logo</SidebarHeader>
@@ -41,7 +48,31 @@ export function AppSidebar() {
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel>Application</SidebarGroupLabel>
-          <SidebarGroupContent></SidebarGroupContent>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {items.map((item) => {
+                return (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton asChild>
+                      <Link
+                        href={item.url}
+                        className={cn(
+                          {
+                            "!bg-primary !text-white": pathname === item.url,
+                          },
+                          "list-none",
+                        )}
+                      >
+                        <item.icon />
+
+                        <span>{item.title}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                );
+              })}
+            </SidebarMenu>
+          </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
     </Sidebar>

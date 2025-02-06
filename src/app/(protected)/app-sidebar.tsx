@@ -77,7 +77,7 @@ export function AppSidebar() {
     <Sidebar collapsible="icon" variant="floating">
       <SidebarHeader>
         <div className="flex items-center gap-2">
-          {open && <h1 className="text-xl font-bold text-primary/80">Logo</h1>}
+          {open && <h1 className="text-xl font-bold text-primary/80">Katara.ai</h1>}
         </div>
       </SidebarHeader>
 

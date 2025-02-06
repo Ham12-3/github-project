@@ -50,14 +50,18 @@ const items = [
   },
 ];
 
-
 export function AppSidebar() {
   const pathname = usePathname();
   const { open } = useSidebar();
-  const {projects, projectId, } = UseProject()
+  const { projects, projectId, setProjectId } = UseProject();
 
   return (
-    <Sidebar collapsible="icon" variant="floating" className="min-h-screen" side="left">
+    <Sidebar
+      collapsible="icon"
+      variant="floating"
+      className="min-h-screen"
+      side="left"
+    >
       <SidebarHeader>
         <div className="flex items-center gap-2">
           {open ? (
@@ -70,7 +74,7 @@ export function AppSidebar() {
         </div>
       </SidebarHeader>
 
-      <SidebarContent className="flex flex-col flex-grow">
+      <SidebarContent className="flex flex-grow flex-col">
         <SidebarGroup>
           <SidebarGroupLabel>{open ? "Application" : ""}</SidebarGroupLabel>
           <SidebarGroupContent>
@@ -103,12 +107,17 @@ export function AppSidebar() {
               {projects?.map((project) => (
                 <SidebarMenuItem key={project.name}>
                   <SidebarMenuButton asChild>
-                    <div className="flex items-center gap-2">
+                    <div
+                      className="flex items-center gap-2"
+                      onClick={() => {
+                        setProjectId(project.id as any);
+                      }}
+                    >
                       <div
                         className={cn(
                           "flex size-6 items-center justify-center rounded-sm border bg-white text-sm text-primary",
                           {
-                            "bg-primary text-white": project.id === projectId ,
+                            "bg-primary text-white": project.id === projectId,
                           },
                         )}
                       >

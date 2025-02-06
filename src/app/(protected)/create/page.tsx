@@ -6,6 +6,7 @@ import Image from "next/image";
 import { Button } from "~/components/ui/button";
 import { api } from "~/trpc/react";
 import { toast } from "sonner";
+import UseRefetch from "~/hooks/use-refetch";
 
 type FormInput = {
   repoUrl: string;
@@ -16,6 +17,7 @@ type FormInput = {
 const CreatePage = () => {
   const { register, handleSubmit, reset } = useForm<FormInput>();
   const createProject = api.project.createProject.useMutation()
+  const refetch = UseRefetch()
 
   function onSubmit(data: FormInput) {
  
@@ -26,6 +28,7 @@ githubToken: data.githubToken
     },{
       onSuccess: () => {
         toast.success('Project created successfully')
+        refetch()
       },
       onError: () => {
         toast.error('Failed to create projects')

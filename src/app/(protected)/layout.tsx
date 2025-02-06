@@ -1,6 +1,6 @@
 import { UserButton } from "@clerk/nextjs";
 import React from "react";
-import { SidebarProvider } from "~/components/ui/sidebar";
+import { SidebarProvider, SidebarTrigger } from "~/components/ui/sidebar";
 import { AppSidebar } from "./app-sidebar";
 
 type Props = {
@@ -10,7 +10,10 @@ type Props = {
 const SidebarLayout = ({ children }: Props) => {
   return (
     <SidebarProvider>
+   
       <AppSidebar />
+      <SidebarTrigger />
+      
       <main className="m-2 w-full">
         <div className="flex items-center gap-2 rounded-md border border-sidebar-border bg-sidebar p-2 px-4 shadow">
           {/* SearchBar  */}
@@ -21,6 +24,7 @@ const SidebarLayout = ({ children }: Props) => {
         <div className="h-4"></div>
 
         <div className="h-[calc(100vh-6rem)] overflow-y-scroll rounded-md border border-sidebar-border bg-sidebar shadow">
+
           {children}
         </div>
       </main>

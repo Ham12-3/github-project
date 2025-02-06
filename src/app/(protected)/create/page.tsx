@@ -15,7 +15,7 @@ const CreatePage = () => {
   const { register, handleSubmit, reset } = useForm<FormInput>();
 
   function onSubmit(data: FormInput) {
-    window.alert(JSON.stringify(data));
+    window.alert(JSON.stringify(data, null, 2));
     return true;
   }
 
@@ -46,7 +46,8 @@ const CreatePage = () => {
          
           <Input
             {...register('repoUrl', { required: true })}
-            placeholder="Repository URL"
+            placeholder="Github URL"
+            type="url"
             required
           />
           <div className="h-2" />

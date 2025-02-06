@@ -1,12 +1,14 @@
-# Create T3 App
+# Katara AI
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+Katara AI is a GitHub application designed to enhance collaboration among developers, built with the [T3 Stack](https://create.t3.gg/).
 
-## What's next? How do I make an app with this?
+## About
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+Katara AI helps improve developer collaboration through intelligent GitHub integration. Our application streamlines the development workflow and facilitates better team communication.
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+## Tech Stack
+
+This project is built using the following technologies:
 
 - [Next.js](https://nextjs.org)
 - [NextAuth.js](https://next-auth.js.org)
@@ -14,6 +16,12 @@ If you are not familiar with the different technologies used in this project, pl
 - [Drizzle](https://orm.drizzle.team)
 - [Tailwind CSS](https://tailwindcss.com)
 - [tRPC](https://trpc.io)
+
+## Getting Started
+
+We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+
+If you are not familiar with the different technologies used in this project, please refer to the respective docs or join our [Discord](https://t3.gg/discord) for help.
 
 ## Learn More
 

@@ -73,7 +73,7 @@ githubToken: data.githubToken
           />
           <div className="h-4" />
           
-          <Button type="submit" className="mt-4">Create Project</Button>
+          <Button type="submit" className="mt-4" disabled={createProject.isPending}>Create Project</Button>
         </form>
       </div>
     </div>

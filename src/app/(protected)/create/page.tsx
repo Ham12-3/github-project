@@ -37,12 +37,27 @@ const CreatePage = () => {
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)}>
+          <Input 
+            {...register('projectName', { required: true })}
+            placeholder="Project Name"
+            required
+          />
+          <div className="h-2" />
+         
           <Input
-            {...register("repoUrl", { required: true })}
+            {...register('repoUrl', { required: true })}
             placeholder="Repository URL"
             required
           />
-          <Button type="submit" className="mt-4">Submit</Button>
+          <div className="h-2" />
+         
+          <Input 
+            {...register('githubToken')}
+            placeholder="Github Token (Optional)"
+          />
+          <div className="h-4" />
+          
+          <Button type="submit" className="mt-4">Create Project</Button>
         </form>
       </div>
     </div>

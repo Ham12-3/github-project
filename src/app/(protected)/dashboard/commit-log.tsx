@@ -1,5 +1,6 @@
 'use client'
 
+import { ExternalLink } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
 import UseProject from '~/hooks/use-project'
@@ -35,12 +36,30 @@ const CommitLog = () => {
 
  <div className='flex justify-between gap-x-4'>
     
-    <Link target='_blank' href={ `${project?.githubUrl}/commit/${commit.commitHash}`} className='text-primary font-medium hover:underline'>
-    {commit.commitMessage}
+    <Link target='_blank' href={ `${project?.githubUrl}/commit/${commit.commitHash}`} className='py-0.5 text-xs leading-5 text-gray-500'>
+ <span className='font-medium text-gray-900'>
+    {commit.commitAuthorName}
+ </span>
+ <span className='inline-flex items-center'>
+committed
+<ExternalLink  className='ml-1 size-4'/>
+
+ </span>
     </Link>
 
  </div>
+
+ <span className='font-semibold'>
+    {commit.commitMessage}
+
+</span>
+
+<pre className='mt-2 whitespace-pre-wrap text-sm leading-6 text-gray-500'>
+{commit.summary}
+</pre>
 </div>
+
+
 </>
 
                 </li>

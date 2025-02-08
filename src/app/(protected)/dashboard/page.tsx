@@ -9,7 +9,7 @@ const DashboardPage = () => {
   const { project } = UseProject();
   return (
     <div>
-      <div className="itemss-center flex flex-wrap justify-center gap-y-4">
+      <div className="items-center flex flex-wrap justify-center gap-y-4">
 
         {/* github link  */}
         <div className="w-fit rounded-md bg-primary px-4 py-3">

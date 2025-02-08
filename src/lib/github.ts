@@ -19,9 +19,14 @@ commitDate: string
 
 
 export const getCommitHashes = async(githubUrl: string) :Promise<Response[]>=> {
+    const [owner , repo] = githubUrl.split('/').slice(-2)
+
+    if(!owner || !repo) {
+        throw new Error("Invalid github url")
+    }
 const {data} = await octokit.rest.repos.listCommits({
-    owner: 'docker',
-    repo: 'genai-stack'
+owner,
+repo
 })
 
 const sortedCommits = data.sort((a:any, b:any)=>new Date(b.commit.author.date).getTime() - new Date(a.commit.author.date).getTime() ) as any[]
@@ -46,7 +51,7 @@ export const pollCommits = async(projectId: string)=> {
 }
 
 async function summariseCommit(githubUrl: string, commitHash:string ) {
-    
+
 }
 
 async function fetchProjectGithubUrl(projectId: string) {

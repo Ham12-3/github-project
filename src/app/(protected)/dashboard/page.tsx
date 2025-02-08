@@ -4,6 +4,7 @@ import { ExternalLink, Github } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import UseProject from "~/hooks/use-project";
+import CommitLog from "./commit-log";
 
 const DashboardPage = () => {
   const { project } = UseProject();
@@ -58,7 +59,7 @@ Archive Button
 
       </div>
 
-      Commit log
+  <CommitLog />
     </div>
   );
 };

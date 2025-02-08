@@ -5,7 +5,7 @@ import {useLocalStorage} from 'usehooks-ts'
 const UseProject = () => {
 
     const {data: projects} = api.project.getProjects.useQuery()
-    const[projectId, setProjectId] = useLocalStorage('katara-ai-project', null)
+    const[projectId, setProjectId] = useLocalStorage('katara-ai-project', "")
     const project = projects?.find(project => project.id === projectId)
 
 

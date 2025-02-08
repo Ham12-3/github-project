@@ -63,6 +63,7 @@ const summaries = summaryResponses.map((response)=> {
 
 const commits = await db.commit.createMany({
     data: summaries.map((summary, index)=> {
+        console.log(`processing commit ${index}`)   
         return {
             projectId: projectId,
             commitHash: unprocessedCommits[index]!.commitHash,

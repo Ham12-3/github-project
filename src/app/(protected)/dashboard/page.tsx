@@ -9,6 +9,8 @@ const DashboardPage = () => {
   const { project } = UseProject();
   return (
     <div>
+
+      {project?.id}
       <div className="items-center flex flex-wrap justify-center gap-y-4">
 
         {/* github link  */}

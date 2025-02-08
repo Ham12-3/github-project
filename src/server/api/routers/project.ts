@@ -1,6 +1,7 @@
 import { db } from "~/server/db";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 import {z }from 'zod'
+import { pollCommits } from "~/lib/github";
 
 export const projectRouter = createTRPCRouter({
   createProject: protectedProcedure.input(
@@ -23,6 +24,8 @@ const project = await ctx.db.project.create({
         }
     }
 })
+
+await pollCommits(project.id)
 return project
   }),
 

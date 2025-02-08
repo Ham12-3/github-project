@@ -1,5 +1,9 @@
 import { Octokit } from 'octokit'
-import { db } from '~/server/db';
+
+
+import axios from 'axios'
+import { db } from '~/server/db'
+import { aiSummariseCommit } from './gemini'
 
 export const  octokit = new Octokit({
     auth : process.env.GITHUB_TOKEN
@@ -46,12 +50,42 @@ export const pollCommits = async(projectId: string)=> {
     const commitHashes = await getCommitHashes(githubUrl)
 
     const unprocessedCommits = await filterUnprocessedCommits(projectId, commitHashes)
+const summaryResponses = await Promise.allSettled(unprocessedCommits.map(commit => {
+    return summariseCommit(githubUrl, commit.commitHash)
+}))
 
-    return unprocessedCommits
+const summaries = summaryResponses.map((response)=> {
+    if(response.status === 'fulfilled') {
+        return response.value as string
+    }
+    return ""
+})
+
+const commits = await db.commit.createMany({
+    data: summaries.map((summary, index)=> {
+        return {
+            projectId: projectId,
+            commitHash: unprocessedCommits[index]!.commitHash,
+            commitMessage: unprocessedCommits[index]!.commitMessage,
+            commitAuthorName: unprocessedCommits[index]!.commitAuthorName,
+            commitAuthorAvatar: unprocessedCommits[index]!.commitAuthorAvatar,
+            commitDate: unprocessedCommits[index]!.commitDate,
+            summary
+        }
+    })
+})
+    return commits
 }
 
 async function summariseCommit(githubUrl: string, commitHash:string ) {
+// get the diff , then pass the diff into ai 
+const {data} = await axios.get(`${githubUrl}/commit/${commitHash}.diff`, {
+    headers: {
+        Accept: 'application/vnd.github.v3.diff'
+    }
+})
 
+return await aiSummariseCommit(data) || ""
 }
 
 async function fetchProjectGithubUrl(projectId: string) {
@@ -79,5 +113,6 @@ async function filterUnprocessedCommits(projectId: string, commitHashes: Respons
 const unprocessedCommits = commitHashes.filter((commit)=> !processedCommits.some((processedCommit)=> processedCommit.commitHash === commit.commitHash))
 
 return unprocessedCommits
+
 }
 

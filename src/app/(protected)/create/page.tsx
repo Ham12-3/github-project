@@ -16,24 +16,27 @@ type FormInput = {
 
 const CreatePage = () => {
   const { register, handleSubmit, reset } = useForm<FormInput>();
-  const createProject = api.project.createProject.useMutation()
-  const refetch = UseRefetch()
+  const createProject = api.project.createProject.useMutation();
+  const refetch = UseRefetch();
 
   function onSubmit(data: FormInput) {
- 
-    createProject.mutate({
-githubUrl: data.repoUrl,
-name: data.projectName,
-githubToken: data.githubToken
-    },{
-      onSuccess: () => {
-        toast.success('Project created successfully')
-        refetch()
+    createProject.mutate(
+      {
+        githubUrl: data.repoUrl,
+        name: data.projectName,
+        githubToken: data.githubToken,
       },
-      onError: () => {
-        toast.error('Failed to create projects')
-      }
-    })
+      {
+        onSuccess: () => {
+          toast.success("Project created successfully");
+          refetch();
+        },
+        onError: (error) => {
+          console.error("Error creating project:", error);
+          toast.error("Failed to create projects");
+        },
+      },
+    );
     return true;
   }
 
@@ -55,28 +58,34 @@ githubToken: data.githubToken
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)}>
-          <Input 
-            {...register('projectName', { required: true })}
+          <Input
+            {...register("projectName", { required: true })}
             placeholder="Project Name"
             required
           />
           <div className="h-2" />
-         
+
           <Input
-            {...register('repoUrl', { required: true })}
+            {...register("repoUrl", { required: true })}
             placeholder="Github URL"
             type="url"
             required
           />
           <div className="h-2" />
-         
-          <Input 
-            {...register('githubToken')}
+
+          <Input
+            {...register("githubToken")}
             placeholder="Github Token (Optional)"
           />
           <div className="h-4" />
-          
-          <Button type="submit" className="mt-4" disabled={createProject.isPending}>Create Project</Button>
+
+          <Button
+            type="submit"
+            className="mt-4"
+            disabled={createProject.isPending}
+          >
+            Create Project
+          </Button>
         </form>
       </div>
     </div>

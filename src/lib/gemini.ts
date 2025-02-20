@@ -1,15 +1,11 @@
-import {GoogleGenerativeAI} from '@google/generative-ai'
-import {Document} from '@langchain/core/documents'
+import { GoogleGenerativeAI } from "@google/generative-ai";
+import { Document } from "@langchain/core/documents";
 
-const genAI = new GoogleGenerativeAI(
-    process.env.GOOGLE_API_KEY!
-)
-
+const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY!);
 
 const model = genAI.getGenerativeModel({
-    model:'gemini-2.0-flash'
-}
-)
+  model: "gemini-2.0-flash",
+});
 
 export const aiSummariseCommit = async (diff: string) => {
   const prompt = `
@@ -68,38 +64,40 @@ Please ensure your summary integrates all of the above information with referenc
 
 export async function summariseCode(doc: Document) {
   console.log("Getting summary for", doc.metadata.source);
-  const code = doc.pageContent.slice(0, 1000);
+  try {
+    const code = doc.pageContent.slice(0, 1000);
 
-  const prompt = `
-You are a seasoned senior software engineer with a talent for onboarding junior engineers. Analyze the code snippet from the file located at "${doc.metadata.source}" below:
+    const prompt = `
+  You are a seasoned senior software engineer with a talent for onboarding junior engineers. Analyze the code snippet from the file located at "${doc.metadata.source}" below:
+  
+  ----------------
+  ${code}
+  ----------------
+  
+  Provide a comprehensive summary that includes:
+  - An overview of the file's purpose and functionality.
+  - Key structural components and design patterns used.
+  - Suggestions for potential improvements or refactoring.
+  - Any critical observations to aid in maintaining or understanding the code.
+  
+  Ensure the summary is both detailed and concise.
+  `;
 
-----------------
-${code}
-----------------
-
-Provide a comprehensive summary that includes:
-- An overview of the file's purpose and functionality.
-- Key structural components and design patterns used.
-- Suggestions for potential improvements or refactoring.
-- Any critical observations to aid in maintaining or understanding the code.
-
-Ensure the summary is both detailed and concise.
-`;
-
-  const response = await model.generateContent([prompt]);
-  return response.response.text().trim();
+    const response = await model.generateContent([prompt]);
+    return response.response.text().trim();
+  } catch (e) {
+    console.error("Error summarizing code", e);
+  }
 }
-
-
 
 export async function generateEmbedding(summary: string) {
-    const model = genAI.getGenerativeModel({
-        model: "text-embedding-004"
-    })
+  const model = genAI.getGenerativeModel({
+    model: "text-embedding-004",
+  });
 
-    const result = await model.embedContent(summary)
-    const embedding = result.embedding
-    return embedding.values
+  const result = await model.embedContent(summary);
+  const embedding = result.embedding;
+  return embedding.values;
 }
 
-console.log(await generateEmbedding("Hello World"))
+console.log(await generateEmbedding("Hello World"));

@@ -1,7 +1,7 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { Document } from "@langchain/core/documents";
 
-const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY!);
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
 
 const model = genAI.getGenerativeModel({
   model: "gemini-2.0-flash",
@@ -84,7 +84,7 @@ export async function summariseCode(doc: Document) {
   `;
 
     const response = await model.generateContent([prompt]);
-    return response.response.text().trim();
+    return response.response.text();
   } catch (e) {
     console.error("Error summarizing code", e);
   }
@@ -99,8 +99,3 @@ export async function generateEmbedding(summary: string) {
   const embedding = result.embedding;
   return embedding.values;
 }
-
-// Remove or comment this out:
-// console.log(await generateEmbedding("Hello World"));
-
-// hello world

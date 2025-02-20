@@ -6,12 +6,10 @@ import { db } from "~/server/db";
 export const loadGithubRepo = async (
   githubUrl: string,
   githubToken?: string,
-  branch?: string, // Optional branch parameter
-): Promise<Document[]> => {
-  const chosenBranch = branch || "master";
+) => {
   const loader = new GithubRepoLoader(githubUrl, {
     accessToken: githubToken || "",
-    branch: chosenBranch,
+    branch: "main",
     ignoreFiles: [
       "package-lock.json",
       "yarn.lock",
@@ -23,22 +21,8 @@ export const loadGithubRepo = async (
     maxConcurrency: 5,
   });
 
-  try {
-    const docs = await loader.load();
-    return docs;
-  } catch (error: any) {
-    // if the error indicates there's no commit for the ref and we're not already trying "main", fallback
-    if (
-      error.message.includes("No commit found for the ref") &&
-      chosenBranch === "master"
-    ) {
-      console.warn(
-        "No commits found for branch 'master', trying branch 'main'",
-      );
-      return loadGithubRepo(githubUrl, githubToken, "main");
-    }
-    throw error;
-  }
+  const docs = await loader.load();
+  return docs;
 };
 
 export const indexGithubRepo = async (
@@ -47,6 +31,7 @@ export const indexGithubRepo = async (
   githubToken?: string,
 ) => {
   const docs = await loadGithubRepo(githubUrl, githubToken);
+
   const allEmbeddings = await generateEmbeddings(docs);
   await Promise.allSettled(
     allEmbeddings.map(async (embedding, index) => {
@@ -60,10 +45,11 @@ export const indexGithubRepo = async (
           projectId,
         },
       });
+
       await db.$executeRaw`
-       UPDATE "SourceCodeEmbedding"
-       SET "summaryEmbedding" = ${embedding.embedding}::vector
-       WHERE "id" = ${sourceCodeEmbedding.id}
+      UPDATE "SourceCodeEmbedding"
+      SE "summaryEmbedding" = ${embedding.embedding}::vector
+      WHERE "id" = ${sourceCodeEmbedding.id}
       `;
     }),
   );

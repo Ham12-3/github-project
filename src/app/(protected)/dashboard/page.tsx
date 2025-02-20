@@ -10,10 +10,8 @@ const DashboardPage = () => {
   const { project } = UseProject();
   return (
     <div>
-
       {project?.id}
-      <div className="items-center flex flex-wrap justify-center gap-y-4">
-
+      <div className="flex flex-wrap items-center justify-center gap-y-4">
         {/* github link  */}
         <div className="w-fit rounded-md bg-primary px-4 py-3">
           <div className="flex items-center">
@@ -33,33 +31,21 @@ const DashboardPage = () => {
           </div>
         </div>
 
-<div className="h-4">
+        <div className="h-4"></div>
 
-</div>
-
-<div className="flex items-center gap-4">
-TeamMembers 
-Invite Button 
-Archive Button
-</div>
-
+        <div className="flex items-center gap-4">
+          TeamMembers Invite Button Archive Button
+        </div>
       </div>
 
       <div className="mt-4">
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-5">
-
-          AskQuestionCard 
-          MeetingCard
-
+          AskQuestionCard MeetingCard
         </div>
-
       </div>
-      <div className="mt-8">
+      <div className="mt-8"></div>
 
-
-      </div>
-
-  <CommitLog />
+      <CommitLog />
     </div>
   );
 };

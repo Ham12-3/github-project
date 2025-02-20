@@ -100,6 +100,7 @@ export async function generateEmbedding(summary: string) {
   return embedding.values;
 }
 
-console.log(await generateEmbedding("Hello World"));
+// Remove or comment this out:
+// console.log(await generateEmbedding("Hello World"));
 
 // hello world

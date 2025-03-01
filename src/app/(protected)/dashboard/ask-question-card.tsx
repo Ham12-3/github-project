@@ -1,9 +1,11 @@
 "use client";
 
 import { set } from "date-fns";
+import Image from "next/image";
 import React from "react";
 import { Button } from "~/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
+import { BrainCircuit } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -20,15 +22,16 @@ const AskQuestionCard = () => {
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // send the question to the backend
-    alert(question);
-    window.alert(question);
+    setOpen(true);
   };
   return (
     <>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Ask a question</DialogTitle>
+            <DialogTitle>
+              <BrainCircuit size={40} />
+            </DialogTitle>
           </DialogHeader>
         </DialogContent>
       </Dialog>

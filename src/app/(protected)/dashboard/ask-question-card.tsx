@@ -17,6 +17,8 @@ import { askQuestion } from "./actions";
 import { SourceCode } from "eslint";
 import { readStreamableValue } from "ai/rsc";
 import CodeReferences from "./code-references";
+import { api } from "~/trpc/react";
+import { toast } from "sonner";
 
 const AskQuestionCard = () => {
   const { project } = UseProject();
@@ -27,6 +29,9 @@ const AskQuestionCard = () => {
     { fileName: string; sourceCode: string; summary: string }[]
   >([]);
   const [answer, setAnswer] = React.useState("");
+
+  const saveAnswer = api.project.saveAnswer.useMutation();
+
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     setAnswer("");
     setFileReferences([]);
@@ -50,9 +55,35 @@ const AskQuestionCard = () => {
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent className="sm:max-w-[80vw]">
           <DialogHeader>
-            <DialogTitle>
-              <BrainCircuit size={40} />
-            </DialogTitle>
+            <div className="flex items-center gap-2">
+              <DialogTitle>
+                <BrainCircuit size={40} />
+              </DialogTitle>
+              <Button
+                disabled={saveAnswer.isPending}
+                variant={"outline"}
+                onClick={() => {
+                  saveAnswer.mutate(
+                    {
+                      question,
+                      answer,
+                      fileReferences,
+                      projectId: project!.id,
+                    },
+                    {
+                      onSuccess: () => {
+                        toast.success("Answer saved successfully");
+                      },
+                      onError: () => {
+                        toast.error("Failed to save answer");
+                      },
+                    },
+                  );
+                }}
+              >
+                Save Answer
+              </Button>
+            </div>
           </DialogHeader>
 
           <MDEditor.Markdown

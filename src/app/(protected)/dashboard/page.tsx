@@ -6,12 +6,12 @@ import React from "react";
 import UseProject from "~/hooks/use-project";
 import CommitLog from "./commit-log";
 import AskQuestionCard from "./ask-question-card";
+import MeetingCard from "./meeting-card";
 
 const DashboardPage = () => {
   const { project } = UseProject();
   return (
     <div>
-      {project?.id}
       <div className="flex flex-wrap items-center justify-center gap-y-4">
         {/* github link  */}
         <div className="w-fit rounded-md bg-primary px-4 py-3">
@@ -42,7 +42,7 @@ const DashboardPage = () => {
       <div className="mt-4">
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-5">
           <AskQuestionCard />
-          MeetingCard
+          <MeetingCard />
         </div>
       </div>
       <div className="mt-8"></div>

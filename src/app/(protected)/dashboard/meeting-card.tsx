@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import { Card } from "~/components/ui/card";
 import { useDropzone } from "react-dropzone";
 import { uploadFile } from "~/lib/firebase";
@@ -17,9 +18,11 @@ const MeetingCard = () => {
     multiple: false,
     maxSize: 50_000_000,
     onDrop: async (acceptedFiles) => {
+      setIsUploading(true);
       console.log(acceptedFiles);
       const file = acceptedFiles[0];
       const downloadURL = await uploadFile(file as File, setProgress);
+      window.alert(`File uploaded to ${downloadURL}`);
       setIsUploading(false);
     },
   });
@@ -47,6 +50,18 @@ const MeetingCard = () => {
             </Button>
           </div>
         </>
+      )}
+      {isUploading && (
+        <div className="flex items-center justify-center">
+          <CircularProgressbar
+            value={progress}
+            text={`${progress}%`}
+            className="size-20"
+          />
+          <p className="text-center text-sm text-gray-500">
+            Uploading your meeting
+          </p>
+        </div>
       )}
     </Card>
   );

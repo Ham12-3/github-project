@@ -6,6 +6,7 @@ import { api } from "~/trpc/react";
 import MeetingCard from "../dashboard/meeting-card";
 import Link from "next/link";
 import { Badge } from "~/components/ui/badge";
+import { Button } from "~/components/ui/button";
 
 const MeetingsPage = () => {
   const { projectId } = UseProject();
@@ -48,6 +49,18 @@ const MeetingsPage = () => {
                   )}
                 </div>
               </div>
+
+              <div className="flex items-center gap-x-2 text-xs text-gray-500">
+                <p className="whitespace-nowrap">
+                  {meeting.createdAt.toLocaleDateString()}
+                </p>
+                <p className="truncate">{meeting.issues.length} issues</p>
+              </div>
+            </div>
+            <div className="flex flex-none items-center gap-x-4">
+              <Link href={`/meetings/${meeting.id}`}>
+                <Button variant="outline">View</Button>
+              </Link>
             </div>
           </li>
         ))}

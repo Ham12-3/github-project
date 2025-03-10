@@ -18,6 +18,8 @@ const MeetingsPage = () => {
       refetchInterval: 4000,
     },
   );
+
+  const deleteMeeting = api.project.deleteMeeting.useMutation();
   return (
     <>
       <MeetingCard />
@@ -59,8 +61,17 @@ const MeetingsPage = () => {
             </div>
             <div className="flex flex-none items-center gap-x-4">
               <Link href={`/meetings/${meeting.id}`}>
-                <Button variant="outline">View</Button>
+                <Button size="sm" variant="outline">
+                  View Meeting
+                </Button>
               </Link>
+              <Button
+                size="sm"
+                variant="destructive"
+                onClick={() => deleteMeeting.mutate({ meetingId: meeting.id })}
+              >
+                Delete Meeting
+              </Button>
             </div>
           </li>
         ))}

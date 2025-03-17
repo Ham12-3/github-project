@@ -7,6 +7,7 @@ import UseProject from "~/hooks/use-project";
 import CommitLog from "./commit-log";
 import AskQuestionCard from "./ask-question-card";
 import MeetingCard from "./meeting-card";
+import ArchiveButton from "./archive-button";
 
 const DashboardPage = () => {
   const { project } = UseProject();
@@ -35,7 +36,8 @@ const DashboardPage = () => {
         <div className="h-4"></div>
 
         <div className="flex items-center gap-4">
-          TeamMembers Invite Button Archive Button
+          TeamMembers Invite Button
+          <ArchiveButton />
         </div>
       </div>
 

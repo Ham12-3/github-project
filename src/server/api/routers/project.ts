@@ -157,4 +157,17 @@ export const projectRouter = createTRPCRouter({
         },
       });
     }),
+  getTeamMembers: protectedProcedure
+    .input(z.object({ projectId: z.string() }))
+    .query(async ({ ctx, input }) => {
+      return await ctx.db.user.findMany({
+        where: {
+          userToProjects: {
+            some: {
+              projectId: input.projectId,
+            },
+          },
+        },
+      });
+    }),
 });

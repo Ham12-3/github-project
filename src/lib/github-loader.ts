@@ -2,6 +2,30 @@ import { GithubRepoLoader } from "@langchain/community/document_loaders/web/gith
 import { Document } from "@langchain/core/documents";
 import { generateEmbedding, summariseCode } from "./gemini";
 import { db } from "~/server/db";
+import { Octokit } from "octokit";
+
+const getFileCount = async (
+  path: string,
+  octokit: Octokit,
+  githubRepo: string,
+  acc: number = 0,
+) => {};
+
+export const checkCredits = async (githubUrl: string, githubToken?: string) => {
+  // find out how many files are in the repo
+  const octokit = new Octokit({ auth: githubToken });
+  const githubOwner = githubUrl.split("/")[3];
+  const githubRepo = githubUrl.split("/")[4];
+
+  if (!githubOwner || !githubRepo) {
+    return 0;
+  }
+  const { data } = await octokit.rest.repos.getContent({
+    owner: githubOwner,
+    repo: githubRepo,
+    path: "",
+  });
+};
 
 export const loadGithubRepo = async (
   githubUrl: string,

@@ -17,28 +17,39 @@ type FormInput = {
 const CreatePage = () => {
   const { register, handleSubmit, reset } = useForm<FormInput>();
   const createProject = api.project.createProject.useMutation();
+  const checkCredits = api.project.checkCredits.useMutation();
   const refetch = UseRefetch();
 
   function onSubmit(data: FormInput) {
-    createProject.mutate(
-      {
+    if (!!checkCredits.data) {
+      createProject.mutate(
+        {
+          githubUrl: data.repoUrl,
+          name: data.projectName,
+          githubToken: data.githubToken,
+        },
+        {
+          onSuccess: () => {
+            toast.success("Project created successfully");
+            refetch();
+          },
+          onError: (error) => {
+            console.error("Error creating project:", error);
+            toast.error("Failed to create projects");
+          },
+        },
+      );
+    } else {
+      checkCredits.mutate({
         githubUrl: data.repoUrl,
-        name: data.projectName,
         githubToken: data.githubToken,
-      },
-      {
-        onSuccess: () => {
-          toast.success("Project created successfully");
-          refetch();
-        },
-        onError: (error) => {
-          console.error("Error creating project:", error);
-          toast.error("Failed to create projects");
-        },
-      },
-    );
-    return true;
+      });
+    }
   }
+
+  const hasEnoughCredits = checkCredits?.data?.userCredits
+    ? checkCredits.data.fileCount <= checkCredits.data.userCredits
+    : false;
 
   return (
     <div className="flex h-full items-center justify-center gap-8">
@@ -77,6 +88,21 @@ const CreatePage = () => {
             {...register("githubToken")}
             placeholder="Github Token (Optional)"
           />
+          {!!checkCredits.data && (
+            <>
+              {/* disclaimer  */}
+              {/* 
+              usignt checkCredits.data?fileCount
+
+              checkCredits.data?.credits */}
+              <p className="text-sm text-muted-foreground">
+                {checkCredits.data.fileCount} files found in the repository
+              </p>
+              <p className="text-sm text-muted-foreground">
+                {checkCredits.data?.userCredits} credits will be used
+              </p>
+            </>
+          )}
           <div className="h-4" />
 
           <Button
@@ -84,6 +110,7 @@ const CreatePage = () => {
             className="mt-4"
             disabled={createProject.isPending}
           >
+            {!!checkCredits.data ? "Create Project" : "Check Credits"}
             Create Project
           </Button>
         </form>
